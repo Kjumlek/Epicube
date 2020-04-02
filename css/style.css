@@ -1,0 +1,602 @@
+/*******************************************************/
+/*******************************************************/
+/*VARIABLES*/
+
+:root{
+    --Red: #f00;
+    --Orange: #f60;
+    --Yellow: #ff0;
+    --Green: #0f0;
+    --Blue: #0af;
+    --Uv: #60f;
+    --Null: rgba(0, 0, 0, 1);
+    --Wall: transparent;
+
+    --borderBackG: 
+    linear-gradient(0deg, #000000 2%, transparent 15%) -1rem 0,
+    linear-gradient(90deg, #000000 2%, transparent 15%) 0px -1rem,
+    linear-gradient(180deg, #000000 2%, transparent 15%) -1rem 0,
+    linear-gradient(270deg, #000000 2%, transparent 15%) 0px -1rem;
+
+    --borderNone: 
+    linear-gradient(0deg, transparent) 0 0,
+    linear-gradient(90deg, transparent) 0 0,
+    linear-gradient(180deg, transparent) 0 0,
+    linear-gradient(270deg, transparent) 0 0;
+}
+
+/*******************************************************/
+/*******************************************************/
+/*FONT_FAMILY*/
+
+/* rajdhani-300 - latin */
+@font-face {
+    font-family: 'Rajdhani';
+    font-style: normal;
+    font-weight: 300;
+    src: local('Rajdhani Light'), local('Rajdhani-Light'),
+         url('../fonts/rajdhani-v9-latin-300.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+         url('../fonts/rajdhani-v9-latin-300.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+  }
+  
+  /* rajdhani-regular - latin */
+  @font-face {
+    font-family: 'Rajdhani';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Rajdhani Regular'), local('Rajdhani-Regular'),
+         url('../fonts/rajdhani-v9-latin-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+         url('../fonts/rajdhani-v9-latin-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+  }
+  
+  /* rajdhani-500 - latin */
+  @font-face {
+    font-family: 'Rajdhani';
+    font-style: normal;
+    font-weight: 500;
+    src: local('Rajdhani Medium'), local('Rajdhani-Medium'),
+         url('../fonts/rajdhani-v9-latin-500.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+         url('../fonts/rajdhani-v9-latin-500.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+  }
+  
+  /* rajdhani-600 - latin */
+  @font-face {
+    font-family: 'Rajdhani';
+    font-style: normal;
+    font-weight: 600;
+    src: local('Rajdhani SemiBold'), local('Rajdhani-SemiBold'),
+         url('../fonts/rajdhani-v9-latin-600.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+         url('../fonts/rajdhani-v9-latin-600.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+  }
+  
+  /* rajdhani-700 - latin */
+  @font-face {
+    font-family: 'Rajdhani';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Rajdhani Bold'), local('Rajdhani-Bold'),
+         url('../fonts/rajdhani-v9-latin-700.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+         url('../fonts/rajdhani-v9-latin-700.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+  }
+  
+
+/*******************************************************/
+/*******************************************************/
+/*BASIC PAGE*/
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Rajdhani';
+    font-weight: 500;
+}
+
+body{
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #444;
+}
+
+/*******************************************************/
+/*******************************************************/
+/*SCORE DISPLAY*/
+
+h1{
+    text-align: center;
+    padding-bottom: 4rem;
+    color: #666;
+}
+.points{
+    padding-left: 3rem;
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 6rem;
+}
+.titlePoint{
+    position: relative;
+    font-family: 'Rajdhani';
+    font-weight: 500;
+}
+.info{
+    display: block;
+    position: absolute;
+    bottom: 0;
+}
+
+#message{
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 6rem;
+    font-weight: 600;
+    text-align: center;
+    color: #fff;
+    display: block;
+    width: 100%;
+    transform-style: preserve-3d;
+    transform: rotateX(-90deg) translateY(-4rem);
+
+}
+
+.timerBarContainer{
+    position: absolute;
+    left: 5rem;
+    width: 20rem;
+    height: 2rem;
+    border: .3rem solid black;
+    transform-style: preserve-3d;
+    transform: translateY(30rem) translateZ(-4rem);
+}
+#timerBar{
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #777;
+}
+
+/*******************************************************/
+/*******************************************************/
+/*BOARD GAME*/
+
+.scene{
+    /* background-color: #444; */
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+.the_grid{
+    position: absolute;
+    display: flex;
+    max-width: min-content;
+    flex-direction: column;
+
+    top: 10%;
+    transform-style: preserve-3d;
+    transform: rotateX(80deg) rotateZ(0deg);
+    z-index: -100;
+    scale: 0.9; 
+
+    /* border: 10px solid #666;
+    box-shadow: 0 0 4rem .1rem white,
+    0 0 .5rem .5rem white inset; */
+
+    transition: .14s linear;
+    animation: backrot1 .7s ease-in-out; 
+}
+@keyframes backrot1{
+    0%{
+        transform: rotateX(0deg) rotateZ(0deg);
+        transform: scaleZ(0);
+    }
+    30%{
+        transform: rotateX(0deg) rotateZ(0deg);
+        transform: scaleZ(1);
+    }
+    100%{
+        transform: rotateX(80deg) rotateZ(0deg);
+    }
+}
+
+.line{
+    display: flex;
+    flex-direction: row;
+    transform-style: preserve-3d;
+}
+.case{
+    height: 5.8rem;
+    width: 5.8rem;
+    margin: .1rem;
+    border-radius: 0.1rem;
+
+    transform-style: preserve-3d;
+    transform: translateZ(-3rem);
+
+    background-color: #000;
+    background: var(--borderBackG);
+    background-size: 5.8rem 5.8rem;
+    background-color: #000000;
+}
+
+/*******************************************************/
+/*******************************************************/
+/*CUBE INDICATOR*/
+
+.indicator{
+    position: absolute;
+    height: 21rem;
+    width: 16rem;
+    top: 1rem;
+    right: 1rem;
+    z-index: 200;
+    opacity: .3;
+}
+
+.indicator > * {
+    position: absolute;
+    height: 4rem;
+    width: 4rem;
+    border: 4px solid black;
+}
+
+.indicFloor{
+    left: 6.5rem;
+    top: 6.5rem;
+    z-index: -1;}
+.indicRoof{
+    left: 5.5rem;
+    top: 5.5rem;}
+.indicUp{
+    left: 6rem;
+    top: 1rem;}
+.indicLeft{
+    left: 1rem;
+    top: 6rem;}
+.indicRight{
+    right: 1rem;
+    top: 6rem;}
+.indicDown{
+    left: 6rem;
+    top: 11rem;}
+
+/*******************************************************/
+/*******************************************************/
+/*THE CUBE*/
+
+.cube{
+    position: absolute;
+    height: 6rem;
+    width: 6rem;
+
+    top: 12rem;
+    left: 12rem;
+    
+    transform-style: preserve-3d;
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+    z-index: 100;
+
+    transition: .2s linear;
+}
+
+.cube > *{
+    position: absolute;
+    height: 6rem;
+    width: 6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    border: .2em solid black;
+
+    /* background: var(--borderBackG);
+    background-size: 5.8rem 5.8rem; */
+}
+.cube svg{
+    width: 60%;
+    height: 60%;
+
+    /* fill: #f00; */
+
+    /* fill: #fff;
+    filter: blur(10px); */
+
+    animation: loop 8s linear infinite;
+}
+@keyframes loop{
+    from{ transform: rotateY(0deg) rotateZ(0deg);}
+    to{ transform: rotateY(0deg) rotateZ(360deg);}
+    0%{ opacity: 0.4;}
+    50%{ opacity: 1;}
+    100%{ opacity: 0.4;}
+}
+
+.cube .front{
+    /* background-color: var(--Red); */
+    background: radial-gradient(#ff0000, #000000);
+    transform: translateZ(3em) rotateY(0deg);
+}
+.cube .bottom{
+    /* background-color: var(--Orange); */
+    background: radial-gradient(#ff9100, #000000);
+    transform: translateY(-3em) rotateX(-90deg);
+}
+.cube .back{
+    /* background-color: var(--Yellow); */
+    background: radial-gradient(#ffff02, #000000);
+    transform: translateZ(-3em) rotateY(180deg); 
+}
+.cube .left{
+    /* background-color: var(--Green); */
+    background: radial-gradient(#00ff00, #000000);
+    transform: translateX(-3em) rotateY(270deg);
+}
+.cube .right{
+    /* background-color: var(--Blue); */
+    background: radial-gradient(#08b6e2, #000000);
+    transform: translateX(3em) rotateY(-270deg);
+}
+.cube .top{
+    /* background-color: var(--Uv); */
+    background: radial-gradient(#9a01ff, #000000);
+    transform: translateY(3em) rotateX(90deg);
+}
+
+
+/*******************************************************/
+/*******************************************************/
+/*THE SENTINEL*/
+
+#sentinel{
+    position: absolute;
+    height: 6rem;
+    width: 6rem;
+
+    top: 24rem;
+    left: 24rem;
+    
+    transform-style: preserve-3d;
+    transform: rotateZ(90deg);
+    z-index: 100;
+
+    transition: .2s linear;
+}
+
+.sentinel > *{
+    position: absolute;
+    height: 4.7rem;
+    width: 4.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    background: var(--borderBackG);
+    /* background-color: var(--Red); */
+    background-color: #555;
+    background-size: 4.7rem 4.7rem;
+}
+.sentinel svg{
+    padding-top: .4rem;
+    width: 80%;
+    height: 80%;
+    fill: #999;
+}
+.sentinel .front{
+    transform: translateZ(2.3em) rotateY(0deg);
+}
+.sentinel .bottom{
+    transform: translateY(-2.3em) rotateX(-90deg);
+}
+.sentinel .back{
+    transform: translateZ(-2.3em) rotateY(180deg); 
+}
+.sentinel .left{
+    transform: translateX(-2.3em) rotateY(270deg);
+}
+.sentinel .right{
+    transform: translateX(2.3em) rotateY(-270deg);
+}
+.sentinel .top{
+    background-color: white;
+    transform: translateY(2.3em) rotateX(90deg);
+}
+.light{
+    /* height: 9.4rem; */
+    height: 4.7rem;
+    width: 4.7rem;
+    
+    /* border-bottom: 4.7rem solid transparent;
+      border-left: 1.15rem solid transparent;
+      border-right: 1.15rem solid transparent;
+      height: 0;
+      width: 4.7rem ; */
+      background: linear-gradient(#ffffff59, transparent);
+      animation: lightStrobe .06s linear infinite;
+}
+@keyframes lightStrobe{
+    0%{ opacity: 0.7;}
+    50%{ opacity: 1;}
+    100%{ opacity: 0.8;}
+}
+.lightUp{
+    transform: translateY(4.7rem) translateZ(2.35rem) rotateX(0deg);
+    transform-origin: top center;
+}
+.lightDown{
+    transform: translateY(4.7rem) translateZ(-2.35rem) rotateX(-0deg);
+    transform-origin: top center;
+}
+.lightLeft{
+    transform: translateX(2.35rem) translateY(4.7rem) rotateY(90deg) rotateX(0deg);
+    transform-origin: top center;
+}
+.lightRight{
+    transform: translateX(-2.35rem) translateY(4.7rem) rotateY(90deg) rotateX(-0deg);
+    transform-origin: top center;
+}
+
+/*******************************************************/
+/*******************************************************/
+/*TAGNAME COLORS*/
+
+.colorNull{
+    background-color: var(--Null);}
+.colorRed{
+    background-color: var(--Red);}
+.colorOrange{
+    background-color: var(--Orange);}
+.colorYellow{
+    background-color: var(--Yellow);}
+.colorGreen{
+    background-color: var(--Green);}
+.colorBlue{
+    background-color: var(--Blue);}
+.colorUv{
+    background-color: var(--Uv);}
+.colorWall{
+    background: var(--borderNone);
+    background-color: var(--Wall);}
+.colorDoorLocked{
+    background-color: transparent;}
+.colorDoorOpen{
+    background-color: white;}
+
+
+/*******************************************************/
+/*******************************************************/
+/*WALL*/
+
+/* .wall{
+    position: absolute;
+    height: 5.8rem;
+    width: 5.8rem;
+    transform-style: preserve-3d;
+    z-index: 100;
+    top: 6rem;
+    left: 18rem;
+    transform: translateZ(0em) scaleZ(1);
+    animation: loop2 1s ease-in-out infinite;
+}
+@keyframes loop2{
+    0%{
+        transform: translateZ(-2.9em) scaleZ(0);
+    }
+    50%{
+        transform: translateZ(0em) scaleZ(1);
+    }
+    100%{
+        transform: translateZ(-2.9em) scaleZ(0);
+    }
+} */
+/* .wall> *{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    height: 5.8rem;
+    width: 5.8rem;
+    background: var(--borderBackG); 
+    background-size: 5.8rem 5.8rem;
+    background-color: var(--Red);
+    box-shadow: 0 0 3rem .1rem #ff0000;
+    
+}
+.wall .front{
+    transform: translateZ(2.9em) rotateY(0deg);
+}
+
+.wall .left{
+    transform: translateX(-2.9em) rotateY(270deg);
+}
+.wall .right{
+    transform: translateX(2.9em) rotateY(-270deg);
+}
+.wall .back{
+    transform: translateZ(-2.9em) rotateY(180deg); 
+}
+.wall .top{
+    transform: translateY(-2.9em) rotateX(-90deg);
+}
+.wall .bottom{
+    transform: translateY(2.9em) rotateX(90deg);
+} */
+
+
+/*******************************************************/
+/*******************************************************/
+/*PSYCHO CASE*/
+
+/* .case33{
+    transform-style: preserve-3d;
+    transform: translateZ(-3rem);
+    background: radial-gradient(#ffffff,
+      #000000 40%,  #ff0000, rgb(0, 170, 0), #00005c, #000000 70%);
+    background-size: cover;
+    height: 5.8rem;
+    width: 5.8rem;
+    border-radius: 0.1rem;
+    margin: .1rem;
+    animation: psycho .3s linear infinite;
+    
+}
+@keyframes psycho{
+    from{
+        filter: hue-rotate(360deg);
+    }
+    to{
+        filter: hue-rotate(0deg);
+    }
+} */
+
+
+/*******************************************************/
+/*******************************************************/
+/*SPHERE*/
+
+/* .boule{
+    position: relative ;
+    height: 5.8rem;
+    width: 5.8rem;
+    background-color: #fff;
+    transform: rotateX(-80deg) rotateY(0deg) translateY(-1rem);
+    border-radius: 50%;
+    background: radial-gradient(#ffffff, #000000 70%);
+    background-size: cover;
+    animation: bouboule 12s linear infinite;
+    box-shadow: 0rem 0rem 1rem white;
+    
+}
+@keyframes bouboule{
+    0%{
+        top: 0rem;
+        left:0rem;
+    }
+    25%{
+        top: 0rem;
+        left: 24rem;
+    }
+    50%{
+        top: 24rem;
+        left:24rem;
+    }
+    75%{
+        top: 24rem;
+        left: 0rem;
+    }
+    100%{
+        top: 0rem;
+        left:0rem;
+    }
+} */
+
+
