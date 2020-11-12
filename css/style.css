@@ -113,7 +113,12 @@ h1{
     position: absolute;
     left: 0;
     top: 0;
-    font-size: 6rem;
+    font-size: 4rem;
+}
+@media screen and (min-width: 48em) {
+    .points{
+        font-size: 6rem;
+    }
 }
 .titlePoint{
     position: relative;
@@ -198,9 +203,9 @@ h1{
 
     top: 10%;
     transform-style: preserve-3d;
-    transform: rotateX(0deg) rotateZ(0deg);
+    transform: rotateX(0deg) rotateZ(0deg) translateZ(-20em);
     z-index: -100;
-    scale: 0.7; 
+    scale: 0.9; 
 
     /* border: 10px solid #666;
     box-shadow: 0 0 4rem .1rem white,
@@ -211,8 +216,7 @@ h1{
 }
 @media screen and (min-width: 48em) {
     .the_grid{
-        scale: 0.9; 
-        transform: rotateX(80deg) rotateZ(0deg);
+        transform: rotateX(80deg) rotateZ(0deg) translateZ(0em);
     }
 }
 @keyframes backrot1{
@@ -261,11 +265,9 @@ h1{
     right: 0rem;
     z-index: 200;
     opacity: .3;
-    scale: 0.7;
 }
 @media screen and (min-width: 48em) {
     .indicator{
-        scale: 1;
         top: 1rem;
         right: 1rem;
     }
