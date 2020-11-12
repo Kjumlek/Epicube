@@ -16,6 +16,7 @@ let indicDown = document.querySelector(".indicDown");
 let indicLeft = document.querySelector(".indicLeft");
 let indicRoof = document.querySelector(".indicRoof");
 let indicFloor = document.querySelector(".indicFloor");
+///////////////////////////////////////////////
 
 
 ///////////////////////////////////////////////
@@ -161,7 +162,7 @@ let degres = 90;
 let sentinel = document.getElementById("sentinel");
 sentinel.style.top = sentinelY * 6 + "rem";
 sentinel.style.left = sentinelX * 6 + "rem";
-console.log(sentinelY, sentinelX);
+// console.log(sentinelY, sentinelX);
 spidow = function() {
     time-= 0.1 + hardness;
     timer.style.width = time + "%";
@@ -222,7 +223,7 @@ spidow = function() {
                 stopRight = true;
                 degres -= 90;
             } else if (sentinelX > 0 && (theGrid[sentinelY][sentinelX - 1] === 0)){
-                console.log("left");
+                // console.log("left");
                 sentinelX -= 1;
                 movinTime = .5;
                 stopDown = false;
@@ -248,7 +249,7 @@ spidow = function() {
                 stopDown = true;
                 degres -= 90;
             } else if (sentinelY > 0 && (theGrid[sentinelY - 1][sentinelX] === 0)){
-                console.log("up");
+                // console.log("up");
                 sentinelY -= 1;
                 movinTime = .5;
                 stopLeft = false;
@@ -274,7 +275,7 @@ spidow = function() {
                 stopLeft = true;
                 degres -= 90;
             } else if (sentinelX < 4 && theGrid[sentinelY][sentinelX + 1] === 0){
-                console.log("right");
+                // console.log("right");
                 sentinelX += 1;
                 movinTime = .5;
                 stopUp = false;
@@ -302,7 +303,7 @@ spidow = function() {
                 stopUp = true;
                 degres -= 90;
             } else if (sentinelY < 4 && theGrid[sentinelY + 1][sentinelX] === 0){
-                console.log("down");
+                // console.log("down");
                 sentinelY += 1;
                 movinTime = .5;
                 stopRight = false;
@@ -363,36 +364,11 @@ padController = {
     up:false,
     down:false,
     keyListener:function(event) {
-
+        
     var key_state = (event.type == "keydown")?true:false;
     
     switch(event.keyCode) {
         
-        // case 49:
-        // turnX -= 90;
-        // cube.style.transform = "rotateX(" + turnX + "deg) rotateY(" + turnY + "deg) rotateZ(" + turnZ + "deg)";
-        // break;
-        // case 50:
-        // turnX += 90;
-        // cube.style.transform = "rotateX(" + turnX + "deg) rotateY(" + turnY + "deg) rotateZ(" + turnZ + "deg)";
-        // break;
-        // case 65:
-        // turnY -= 90;
-        // cube.style.transform = "rotateX(" + turnX + "deg) rotateY(" + turnY + "deg) rotateZ(" + turnZ + "deg)";
-        // break;
-        // case 90:
-        // turnY += 90;
-        // cube.style.transform = "rotateX(" + turnX + "deg) rotateY(" + turnY + "deg) rotateZ(" + turnZ + "deg)";
-        // break;
-        // case 69:
-        // turnZ -= 90;
-        // cube.style.transform = "rotateX(" + turnX + "deg) rotateY(" + turnY + "deg) rotateZ(" + turnZ + "deg)";
-        // break;
-        // case 82:
-        // turnZ += 90;
-        // cube.style.transform = "rotateX(" + turnX + "deg) rotateY(" + turnY + "deg) rotateZ(" + turnZ + "deg)";
-        // break;        
-
         case 39:// right key
         padController.right = key_state;
         if (leftPos <= 3 && !loose){
@@ -498,259 +474,372 @@ padController = {
         break;
         
         }
+        console.log(leftPos, topPos);
         cube.style.left= leftPos * 6 + "rem";
         cube.style.top= topPos * 6 + "rem";
-        console.log((turnX)%360,(turnY)%360,(turnZ)%360);
+        scoring();
+        logic();
+    }
+};
+
+window.addEventListener('load', function(){
+        var el = document.getElementById('glass')
+
+        ontouch(el, function(evt, swipetype){
+            
+        if (swipetype == 'left' && xxx === 0){
+            ++xxx;
+            if (leftPos >= 1 && !loose){
+                if (theGrid[topPos][leftPos - 1] == 0
+                    || cubeInGrid[topPos][leftPos - 1] == theGrid[topPos][leftPos - 1]){
+                    leftPos = leftPos - 1;
+                    if (turnX%360 == 0){
+                        turnY = turnY - 90;
+                    } else if (turnX%360 == -180 || turnX%360 == 180){
+                        turnY = turnY + 90;
+                    } else if (turnX%360 == -90 || turnX%360 == 270){
+                        if(turnY%360 == 180 || turnY%360 == -180){
+                            turnZ = turnZ + 90;
+                        } else{
+                            turnZ = turnZ - 90;
+                        }
+                    } else if (turnX%360 == 90 || turnX%360 == -270){
+                        if(turnY%360 == 180 || turnY%360 == -180){
+                            turnZ = turnZ - 90;
+                        } else{
+                            turnZ = turnZ + 90;
+                        }
+                    }
+                    cube.style.transform = "rotateX(" + turnX + "deg) rotateY(" + turnY + "deg) rotateZ(" + turnZ + "deg)";
+                }
+            }
+        };
+        if (swipetype == 'right' && xxx === 0){
+            ++xxx;
+            if (leftPos <= 3 && !loose){
+                if (theGrid[topPos][leftPos + 1] == 0 
+                    || cubeInGrid[topPos][leftPos + 1] == theGrid[topPos][leftPos + 1]
+                    ){
+                    leftPos = leftPos + 1;
+                    if (turnX%360 == 0){
+                        turnY = turnY + 90;
+                    } else if (turnX%360 == -180 || turnX%360 == 180){
+                        turnY = turnY - 90;
+                    } else if (turnX%360 == -90 || turnX%360 == 270){
+                        if(turnY%360 == 180 || turnY%360 == -180){
+                            turnZ = turnZ - 90;
+                        } else{
+                            turnZ = turnZ + 90;
+                        }
+                    } else if (turnX%360 == 90 || turnX%360 == -270){
+                        if(turnY%360 == 180 || turnY%360 == -180){
+                            turnZ = turnZ + 90;
+                        } else{
+                            turnZ = turnZ - 90;
+                        }
+                    }
+                    cube.style.transform = "rotateX(" + turnX + "deg) rotateY(" + turnY + "deg) rotateZ(" + turnZ + "deg)";
+                }
+            }
+        };
+        if (swipetype == 'up' && xxx === 0){
+            ++xxx;
+            if (topPos >= 1 && !loose){
+                if (theGrid[topPos - 1][leftPos] == 0
+                    || cubeInGrid[topPos - 1][leftPos] == theGrid[topPos - 1][leftPos]){
+
+                    topPos = topPos - 1;
+
+                    if (turnY%360 == 0){
+                        turnX = turnX + 90;
+                    } else if (turnY%360 == -180 || turnY%360 == 180){
+                        turnX = turnX + 90;
+                    } else if (turnY%360 == -90 || turnY%360 == 270){
+                        turnZ = turnZ - 90;
+                    } else if (turnY%360 == 90 || turnY%360 == -270){
+                        turnZ = turnZ + 90;
+                    }
+                    
+                    cube.style.transform = "rotateX(" + turnX + "deg) rotateY(" + turnY + "deg) rotateZ(" + turnZ + "deg)";
+                }
+            }
+        };
+        if (swipetype == 'down' && xxx === 0){
+            ++xxx;
+            if (topPos <= 3 && !loose){
+                if (theGrid[topPos + 1][leftPos] == 0
+                    || cubeInGrid[topPos + 1][leftPos] == theGrid[topPos + 1][leftPos]){
+
+                    topPos = topPos + 1;
+
+                    if (turnY%360 == 0){
+                        turnX = turnX - 90;
+                    } else if (turnY%360 == -180 || turnY%360 == 180){
+                        turnX = turnX - 90;
+                    } else if (turnY%360 == -90 || turnY%360 == 270){
+                        turnZ = turnZ + 90;
+                    } else if (turnY%360 == 90 || turnY%360 == -270){
+                        turnZ = turnZ - 90;
+                    }
+                    cube.style.transform = "rotateX(" + turnX + "deg) rotateY(" + turnY + "deg) rotateZ(" + turnZ + "deg)";
+                }
+            }
+        };
+        // var touchreport = ''
+        // touchreport += '<b>Swipe Type:</b> ' + swipetype + '<br />'
+        // el.innerHTML = touchreport
+        cube.style.left= leftPos * 6 + "rem";
+        cube.style.top= topPos * 6 + "rem";
+        scoring();
+        logic();
+        })
+}, false)
 
 
 
-
-        
 ////////////////////////////////////////////////////////
 //SCORE
 ////////////////////////////////////////////////////////
+function scoring(){
+    if (cubeInGrid[topPos][leftPos] == theGrid[topPos][leftPos]){
+        theGrid[topPos][leftPos] = 0;
+        document.querySelector(".case" + (topPos + 1) + (leftPos + 1)).className = "case case"+ (topPos + 1) + (leftPos + 1) + " " + color[0];
+        randomCase();
+        scorePlayer++;
+        hardness += 0.005;
+        time = 100;
+        gramPoints.innerHTML = scorePlayer;
+    }
 
-        if (cubeInGrid[topPos][leftPos] == theGrid[topPos][leftPos]){
-            theGrid[topPos][leftPos] = 0;
-            document.querySelector(".case" + (topPos + 1) + (leftPos + 1)).className = "case case"+ (topPos + 1) + (leftPos + 1) + " " + color[0];
-            randomCase();
-            scorePlayer++;
-            hardness += 0.005;
-            time = 100;
-            gramPoints.innerHTML = scorePlayer;
-        }
+    if (!theGrid.some(r => r.some(v => v > 0 && v < 7))){
+        // drawLevel(level2);
+        scorePlayer++;
+        // hardness += 0.0005;
+    }
+};
 
-        if (!theGrid.some(r => r.some(v => v > 0 && v < 7))){
-            // drawLevel(level2);
-            scorePlayer++;
-            // hardness += 0.0005;
-        }
+
 
 ////////////////////////////////////////////////////////
 //CUBE FACES ORIENTATION PROCESSOR
 ////////////////////////////////////////////////////////
-
+function logic(){
 ////////////////////////////////////////////////////////
 //Blue & Green
-
-        if ((turnY % 360 == 0 && turnZ % 360 == 0) ||
-        (Math.abs(turnY) % 360 == 180 && Math.abs(turnZ) % 360 == 180)){
-            indicRight.className = "indicRight colorBlue";
-            indicLeft.className = "indicLeft colorGreen";
-            if(leftPos <= 3){
-                cubeInGrid[topPos][leftPos + 1] = 5;
-            }
-            if(leftPos >= 1){
-                cubeInGrid[topPos][leftPos - 1] = 4;
-            }
+    if ((turnY % 360 == 0 && turnZ % 360 == 0) ||
+    (Math.abs(turnY) % 360 == 180 && Math.abs(turnZ) % 360 == 180)){
+        indicRight.className = "indicRight colorBlue";
+        indicLeft.className = "indicLeft colorGreen";
+        if(leftPos <= 3){
+            cubeInGrid[topPos][leftPos + 1] = 5;
         }
-        else if ((Math.abs(turnY) % 360 == 180 && turnZ % 360 == 0) ||
-        (turnY % 360 == 0 && Math.abs(turnZ) % 360 == 180)){
-            indicRight.className = "indicRight colorGreen";
-            indicLeft.className = "indicLeft colorBlue";
-            if(leftPos <= 3){
-            cubeInGrid[topPos][leftPos + 1] = 4;}
-            if(leftPos >= 1){
-            cubeInGrid[topPos][leftPos - 1] = 5;}
+        if(leftPos >= 1){
+            cubeInGrid[topPos][leftPos - 1] = 4;
         }
-        else if ((turnX % 360 == 0 && (turnZ % 360 == 90 || turnZ % 360 == -270)) ||
-            (Math.abs(turnX) % 360 == 180 && (turnZ % 360 == -90 || turnZ % 360 == 270)) ){
-                indicDown.className = "indicDown colorBlue";
-                indicUp.className = "indicUp colorGreen";
-            if(topPos <= 3){
-            cubeInGrid[topPos + 1][leftPos] = 5;}
-            if(topPos >= 1){
-            cubeInGrid[topPos - 1][leftPos] = 4;}
-        }
-        else if ((turnX % 360 == 0 && (turnZ % 360 == -90 || turnZ % 360 == 270)) ||
-            (Math.abs(turnX) % 360 == 180 && (turnZ % 360 == 90 || turnZ % 360 == -270)) ){
-                indicDown.className = "indicDown colorGreen";
-                indicUp.className = "indicUp colorBlue";
-            if(topPos <= 3){
-            cubeInGrid[topPos + 1][leftPos] = 4;}
-            if(topPos >= 1){
-            cubeInGrid[topPos - 1][leftPos] = 5;}
-        }
-        else if (
-            ( ((turnY % 360 == 270) || (turnY % 360 == -90)) && (turnZ % 360 == 180 || turnZ % 360 == -180)) 
-            ||
-            (((turnY % 360 == -270) || (turnY % 360 == 90)) && turnZ % 360 == 0) 
-            ||
-            (turnY % 360 == 0 && (turnX % 360 == -270 || turnX % 360 == 90) && (turnZ % 360 == 270 || turnZ % 360 == -90)) 
-            ||
-            (turnY % 360 == 0 && (turnX % 360 == 270 || turnX % 360 == -90) && (turnZ % 360 == -270 || turnZ % 360 == 90))
-            ||
-            (Math.abs(turnY % 360) == 180 && (turnX % 360 == -270 || turnX % 360 == 90) && (turnZ % 360 == 270 || turnZ % 360 == -90))
-            ||
-            (Math.abs(turnY % 360) == 180 && (turnX % 360 == 270 || turnX % 360 == -90) && (turnZ % 360 == -270 || turnZ % 360 == 90))
-            ){
-                indicRoof.className = "indicRoof colorGreen";
-                indicFloor.className = "indicFloor colorBlue";
-            cubeInGrid[topPos][leftPos] = 5;
-        }
-        else if (
-            ( ((turnY % 360 == 270) || (turnY % 360 == -90)) && turnZ % 360 == 0)
-            ||
-            (((turnY % 360 == -270) || (turnY % 360 == 90)) && (turnZ % 360 == 180 || turnZ % 360 == -180)) 
-            ||
-            (turnY % 360 == 0 && (turnX % 360 == -270 || turnX % 360 == 90) && (turnZ % 360 == -270 || turnZ % 360 == 90)) 
-            ||
-            (turnY % 360 == 0 && (turnX % 360 == 270 || turnX % 360 == -90) && (turnZ % 360 == 270 || turnZ % 360 == -90))
-            ||
-            (Math.abs(turnY % 360) == 180 && (turnX % 360 == -270 || turnX % 360 == 90) && (turnZ % 360 == -270 || turnZ % 360 == 90))
-            ||
-            (Math.abs(turnY % 360) == 180 && (turnX % 360 == 270 || turnX % 360 == -90) && (turnZ % 360 == 270 || turnZ % 360 == -90))
-            ){
-                indicRoof.className = "indicRoof colorBlue";
-                indicFloor.className = "indicFloor colorGreen";
-            cubeInGrid[topPos][leftPos] = 4;
-        };
+    }
+    else if ((Math.abs(turnY) % 360 == 180 && turnZ % 360 == 0) ||
+    (turnY % 360 == 0 && Math.abs(turnZ) % 360 == 180)){
+        indicRight.className = "indicRight colorGreen";
+        indicLeft.className = "indicLeft colorBlue";
+        if(leftPos <= 3){
+        cubeInGrid[topPos][leftPos + 1] = 4;}
+        if(leftPos >= 1){
+        cubeInGrid[topPos][leftPos - 1] = 5;}
+    }
+    else if ((turnX % 360 == 0 && (turnZ % 360 == 90 || turnZ % 360 == -270)) ||
+        (Math.abs(turnX) % 360 == 180 && (turnZ % 360 == -90 || turnZ % 360 == 270)) ){
+            indicDown.className = "indicDown colorBlue";
+            indicUp.className = "indicUp colorGreen";
+        if(topPos <= 3){
+        cubeInGrid[topPos + 1][leftPos] = 5;}
+        if(topPos >= 1){
+        cubeInGrid[topPos - 1][leftPos] = 4;}
+    }
+    else if ((turnX % 360 == 0 && (turnZ % 360 == -90 || turnZ % 360 == 270)) ||
+        (Math.abs(turnX) % 360 == 180 && (turnZ % 360 == 90 || turnZ % 360 == -270)) ){
+            indicDown.className = "indicDown colorGreen";
+            indicUp.className = "indicUp colorBlue";
+        if(topPos <= 3){
+        cubeInGrid[topPos + 1][leftPos] = 4;}
+        if(topPos >= 1){
+        cubeInGrid[topPos - 1][leftPos] = 5;}
+    }
+    else if (
+        ( ((turnY % 360 == 270) || (turnY % 360 == -90)) && (turnZ % 360 == 180 || turnZ % 360 == -180)) 
+        ||
+        (((turnY % 360 == -270) || (turnY % 360 == 90)) && turnZ % 360 == 0) 
+        ||
+        (turnY % 360 == 0 && (turnX % 360 == -270 || turnX % 360 == 90) && (turnZ % 360 == 270 || turnZ % 360 == -90)) 
+        ||
+        (turnY % 360 == 0 && (turnX % 360 == 270 || turnX % 360 == -90) && (turnZ % 360 == -270 || turnZ % 360 == 90))
+        ||
+        (Math.abs(turnY % 360) == 180 && (turnX % 360 == -270 || turnX % 360 == 90) && (turnZ % 360 == 270 || turnZ % 360 == -90))
+        ||
+        (Math.abs(turnY % 360) == 180 && (turnX % 360 == 270 || turnX % 360 == -90) && (turnZ % 360 == -270 || turnZ % 360 == 90))
+        ){
+            indicRoof.className = "indicRoof colorGreen";
+            indicFloor.className = "indicFloor colorBlue";
+        cubeInGrid[topPos][leftPos] = 5;
+    }
+    else if (
+        ( ((turnY % 360 == 270) || (turnY % 360 == -90)) && turnZ % 360 == 0)
+        ||
+        (((turnY % 360 == -270) || (turnY % 360 == 90)) && (turnZ % 360 == 180 || turnZ % 360 == -180)) 
+        ||
+        (turnY % 360 == 0 && (turnX % 360 == -270 || turnX % 360 == 90) && (turnZ % 360 == -270 || turnZ % 360 == 90)) 
+        ||
+        (turnY % 360 == 0 && (turnX % 360 == 270 || turnX % 360 == -90) && (turnZ % 360 == 270 || turnZ % 360 == -90))
+        ||
+        (Math.abs(turnY % 360) == 180 && (turnX % 360 == -270 || turnX % 360 == 90) && (turnZ % 360 == -270 || turnZ % 360 == 90))
+        ||
+        (Math.abs(turnY % 360) == 180 && (turnX % 360 == 270 || turnX % 360 == -90) && (turnZ % 360 == 270 || turnZ % 360 == -90))
+        ){
+            indicRoof.className = "indicRoof colorBlue";
+            indicFloor.className = "indicFloor colorGreen";
+        cubeInGrid[topPos][leftPos] = 4;
+    };
 
 ////////////////////////////////////////////////////////
 //Red & Yellow
-
-        if ((turnX % 360 == 0 && turnY % 360 == 0)||
-        (Math.abs(turnX) % 360 == 180 && Math.abs(turnY) % 360 == 180)){
-            indicRoof.className = "indicRoof colorRed";
-            indicFloor.className = "indicFloor colorYellow";
-            cubeInGrid[topPos][leftPos] = 3;
-        }
-        if ((turnX % 360 == 0 && Math.abs(turnY) % 360 == 180)||
-        (Math.abs(turnX) % 360 == 180 && turnY % 360 == 0)){
-            indicRoof.className = "indicRoof colorYellow";
-            indicFloor.className = "indicFloor colorRed";
-            cubeInGrid[topPos][leftPos] = 1;
-        }
-        else if ((turnY-90 % 180 == 0 && Math.abs(turnX) % 180 == 0) || 
-        (((turnY)%360 == -270 || (turnY)%360 == 90) && Math.abs(turnX) % 180 == 0)
-        ){
-            indicRight.className = "indicRight colorRed";
-            indicLeft.className = "indicLeft colorYellow";
-            if(leftPos <= 3){
-            cubeInGrid[topPos][leftPos + 1] = 1;}
-            if(leftPos >= 1){
-            cubeInGrid[topPos][leftPos - 1] = 3;}
-        }
-        else if ((turnY+90 % 180 == 0 && Math.abs(turnX) % 180 == 0) || 
-        (((turnY)%360 == 270 || (turnY)%360 == -90) && Math.abs(turnX) % 180 == 0)
-        ){
-            indicRight.className = "indicRight colorYellow";
-            indicLeft.className = "indicLeft colorRed";
-            if(leftPos <= 3){
-            cubeInGrid[topPos][leftPos + 1] = 3;}
-            if(leftPos >= 1){
-            cubeInGrid[topPos][leftPos - 1] = 1;}
-        }
-        else if (
-            ((turnX%360 == -90 || turnX%360 == 270) && Math.abs(turnY) % 360 == 180) 
-            || 
-        ((turnX%360 == 90 || turnX%360 == -270) && turnY % 360 == 0)
-        ){
-            indicDown.className = "indicDown colorYellow";
-            indicUp.className = "indicUp colorRed";
-            if(topPos <= 3){
-            cubeInGrid[topPos + 1][leftPos] = 3;}
-            if(topPos >= 1){
-            cubeInGrid[topPos - 1][leftPos] = 1;}
-        }
-        else if (
-            ((turnX%360 == 90 || turnX%360 == -270) && Math.abs(turnY) % 360 == 180) 
-            || 
-        ((turnX%360 == -90 || turnX%360 == 270) && turnY % 360 == 0)
-        ){
-            indicDown.className = "indicDown colorRed";
-            indicUp.className = "indicUp colorYellow";
-            if(topPos <= 3){
-            cubeInGrid[topPos + 1][leftPos] = 1;}
-            if(topPos >= 1){
-            cubeInGrid[topPos - 1][leftPos] = 3;}
-        };
-
-
+    if ((turnX % 360 == 0 && turnY % 360 == 0)||
+    (Math.abs(turnX) % 360 == 180 && Math.abs(turnY) % 360 == 180)){
+        indicRoof.className = "indicRoof colorRed";
+        indicFloor.className = "indicFloor colorYellow";
+        cubeInGrid[topPos][leftPos] = 3;
+    }
+    if ((turnX % 360 == 0 && Math.abs(turnY) % 360 == 180)||
+    (Math.abs(turnX) % 360 == 180 && turnY % 360 == 0)){
+        indicRoof.className = "indicRoof colorYellow";
+        indicFloor.className = "indicFloor colorRed";
+        cubeInGrid[topPos][leftPos] = 1;
+    }
+    else if ((turnY-90 % 180 == 0 && Math.abs(turnX) % 180 == 0) || 
+    (((turnY)%360 == -270 || (turnY)%360 == 90) && Math.abs(turnX) % 180 == 0)
+    ){
+        indicRight.className = "indicRight colorRed";
+        indicLeft.className = "indicLeft colorYellow";
+        if(leftPos <= 3){
+        cubeInGrid[topPos][leftPos + 1] = 1;}
+        if(leftPos >= 1){
+        cubeInGrid[topPos][leftPos - 1] = 3;}
+    }
+    else if ((turnY+90 % 180 == 0 && Math.abs(turnX) % 180 == 0) || 
+    (((turnY)%360 == 270 || (turnY)%360 == -90) && Math.abs(turnX) % 180 == 0)
+    ){
+        indicRight.className = "indicRight colorYellow";
+        indicLeft.className = "indicLeft colorRed";
+        if(leftPos <= 3){
+        cubeInGrid[topPos][leftPos + 1] = 3;}
+        if(leftPos >= 1){
+        cubeInGrid[topPos][leftPos - 1] = 1;}
+    }
+    else if (
+        ((turnX%360 == -90 || turnX%360 == 270) && Math.abs(turnY) % 360 == 180) 
+        || 
+    ((turnX%360 == 90 || turnX%360 == -270) && turnY % 360 == 0)
+    ){
+        indicDown.className = "indicDown colorYellow";
+        indicUp.className = "indicUp colorRed";
+        if(topPos <= 3){
+        cubeInGrid[topPos + 1][leftPos] = 3;}
+        if(topPos >= 1){
+        cubeInGrid[topPos - 1][leftPos] = 1;}
+    }
+    else if (
+        ((turnX%360 == 90 || turnX%360 == -270) && Math.abs(turnY) % 360 == 180) 
+        || 
+    ((turnX%360 == -90 || turnX%360 == 270) && turnY % 360 == 0)
+    ){
+        indicDown.className = "indicDown colorRed";
+        indicUp.className = "indicUp colorYellow";
+        if(topPos <= 3){
+        cubeInGrid[topPos + 1][leftPos] = 1;}
+        if(topPos >= 1){
+        cubeInGrid[topPos - 1][leftPos] = 3;}
+    };
 
 ////////////////////////////////////////////////////////
 //Orange & Uv
-
-        if ((turnX % 360 == 0 && turnZ % 360 == 0) ||
-        (Math.abs(turnX) % 360 == 180 && Math.abs(turnZ) % 360 == 180)){
-            indicDown.className = "indicDown colorUv";
-            indicUp.className = "indicUp colorOrange";
-            if(topPos <= 3){
-            cubeInGrid[topPos + 1][leftPos] = 6;}
-            if(topPos >= 1){
-            cubeInGrid[topPos - 1][leftPos] = 2;}
-        }
-        else if ((Math.abs(turnX % 180) == 0 && turnZ % 360 == 0) ||
-        (Math.abs(turnX) % 360 == 0 && Math.abs(turnZ) % 360 == 180)){
-            indicDown.className = "indicDown colorOrange";
-            indicUp.className = "indicUp colorUv";
-            if(topPos <= 3){
-            cubeInGrid[topPos + 1][leftPos] = 2;}
-            if(topPos >= 1){
-            cubeInGrid[topPos - 1][leftPos] = 6;}
-        }
-        else if (
-            (Math.abs(turnY % 360) == 180 && (turnZ % 360 == 270 || turnZ % 360 == -90))
-            ||
-            (turnY % 360 == 0 && (turnZ % 360 == -270 || turnZ % 360 == 90))
-            ){
-            indicLeft.className = "indicLeft colorUv";
-            indicRight.className = "indicRight colorOrange";
-            if(leftPos <= 3){
-            cubeInGrid[topPos][leftPos + 1] = 2;}
-            if(leftPos >= 1){
-            cubeInGrid[topPos][leftPos - 1] = 6;}
-        }
-        else if (
-            (Math.abs(turnY % 360) == 180 && (turnZ % 360 == -270 || turnZ % 360 == 90))
-            ||
-            (turnY % 360 == 0 && (turnZ % 360 == 270 || turnZ % 360 == -90))
-            ){
-            indicRight.className = "indicRight colorUv";
-            indicLeft.className = "indicLeft colorOrange";
-            if(leftPos <= 3){
-            cubeInGrid[topPos][leftPos + 1] = 6};
-            if(leftPos >= 1){
-            cubeInGrid[topPos][leftPos - 1] = 2;}
-        }
-        else if (
-            ( ((turnX % 360 == 270) || (turnX % 360 == -90)) && (turnZ % 360 == 180 || turnZ % 360 == -180)) 
-            ||
-            (((turnX % 360 == -270) || (turnX % 360 == 90)) && turnZ % 360 == 0) 
-            ||            
-            (turnX % 360 == 0 && (turnY % 360 == -270 || turnY % 360 == 90) && (turnZ % 360 == -270 || turnZ % 360 == 90)) 
-            ||
-            (turnX % 360 == 0 && (turnY % 360 == 270 || turnY % 360 == -90) && (turnZ % 360 == 270 || turnZ % 360 == -90))
-            ||
-            (Math.abs(turnX % 360) == 180 && (turnY % 360 == -270 || turnY % 360 == 90) && (turnZ % 360 == 270 || turnZ % 360 == -90))
-            ||
-            (Math.abs(turnX % 360) == 180 && (turnY % 360 == 270 || turnY % 360 == -90) && (turnZ % 360 == -270 || turnZ % 360 == 90))
-            ){
-            indicRoof.className = "indicRoof colorUv";
-            indicFloor.className = "indicFloor colorOrange";
-            cubeInGrid[topPos][leftPos] = 2;
-        }
-        else if (
-            ( ((turnX % 360 == 270) || (turnX % 360 == -90)) && turnZ % 360 == 0)
-            ||
-            (((turnX % 360 == -270) || (turnX % 360 == 90)) && (turnZ % 360 == 180 || turnZ % 360 == -180)) 
-            ||
-
-            (turnX % 360 == 0 && (turnY % 360 == -270 || turnY % 360 == 90) && (turnZ % 360 == 270 || turnZ % 360 == -90)) 
-            ||
-            (turnX % 360 == 0 && (turnY % 360 == 270 || turnY % 360 == -90) && (turnZ % 360 == -270 || turnZ % 360 == 90))
-            ||
-            (Math.abs(turnX % 360) == 180 && (turnY % 360 == -270 || turnY % 360 == 90) && (turnZ % 360 == -270 || turnZ % 360 == 90))
-            ||
-            (Math.abs(turnX % 360) == 180 && (turnY % 360 == 270 || turnY % 360 == -90) && (turnZ % 360 == 270 || turnZ % 360 == -90))
-            ){
-            indicRoof.className = "indicRoof colorOrange";
-            indicFloor.className = "indicFloor colorUv";
-            cubeInGrid[topPos][leftPos] = 6;
-        }
-
+    if ((turnX % 360 == 0 && turnZ % 360 == 0) ||
+    (Math.abs(turnX) % 360 == 180 && Math.abs(turnZ) % 360 == 180)){
+        indicDown.className = "indicDown colorUv";
+        indicUp.className = "indicUp colorOrange";
+        if(topPos <= 3){
+        cubeInGrid[topPos + 1][leftPos] = 6;}
+        if(topPos >= 1){
+        cubeInGrid[topPos - 1][leftPos] = 2;}
     }
-};
+    else if ((Math.abs(turnX % 180) == 0 && turnZ % 360 == 0) ||
+    (Math.abs(turnX) % 360 == 0 && Math.abs(turnZ) % 360 == 180)){
+        indicDown.className = "indicDown colorOrange";
+        indicUp.className = "indicUp colorUv";
+        if(topPos <= 3){
+        cubeInGrid[topPos + 1][leftPos] = 2;}
+        if(topPos >= 1){
+        cubeInGrid[topPos - 1][leftPos] = 6;}
+    }
+    else if (
+        (Math.abs(turnY % 360) == 180 && (turnZ % 360 == 270 || turnZ % 360 == -90))
+        ||
+        (turnY % 360 == 0 && (turnZ % 360 == -270 || turnZ % 360 == 90))
+        ){
+        indicLeft.className = "indicLeft colorUv";
+        indicRight.className = "indicRight colorOrange";
+        if(leftPos <= 3){
+        cubeInGrid[topPos][leftPos + 1] = 2;}
+        if(leftPos >= 1){
+        cubeInGrid[topPos][leftPos - 1] = 6;}
+    }
+    else if (
+        (Math.abs(turnY % 360) == 180 && (turnZ % 360 == -270 || turnZ % 360 == 90))
+        ||
+        (turnY % 360 == 0 && (turnZ % 360 == 270 || turnZ % 360 == -90))
+        ){
+        indicRight.className = "indicRight colorUv";
+        indicLeft.className = "indicLeft colorOrange";
+        if(leftPos <= 3){
+        cubeInGrid[topPos][leftPos + 1] = 6};
+        if(leftPos >= 1){
+        cubeInGrid[topPos][leftPos - 1] = 2;}
+    }
+    else if (
+        ( ((turnX % 360 == 270) || (turnX % 360 == -90)) && (turnZ % 360 == 180 || turnZ % 360 == -180)) 
+        ||
+        (((turnX % 360 == -270) || (turnX % 360 == 90)) && turnZ % 360 == 0) 
+        ||            
+        (turnX % 360 == 0 && (turnY % 360 == -270 || turnY % 360 == 90) && (turnZ % 360 == -270 || turnZ % 360 == 90)) 
+        ||
+        (turnX % 360 == 0 && (turnY % 360 == 270 || turnY % 360 == -90) && (turnZ % 360 == 270 || turnZ % 360 == -90))
+        ||
+        (Math.abs(turnX % 360) == 180 && (turnY % 360 == -270 || turnY % 360 == 90) && (turnZ % 360 == 270 || turnZ % 360 == -90))
+        ||
+        (Math.abs(turnX % 360) == 180 && (turnY % 360 == 270 || turnY % 360 == -90) && (turnZ % 360 == -270 || turnZ % 360 == 90))
+        ){
+        indicRoof.className = "indicRoof colorUv";
+        indicFloor.className = "indicFloor colorOrange";
+        cubeInGrid[topPos][leftPos] = 2;
+    }
+    else if (
+        ( ((turnX % 360 == 270) || (turnX % 360 == -90)) && turnZ % 360 == 0)
+        ||
+        (((turnX % 360 == -270) || (turnX % 360 == 90)) && (turnZ % 360 == 180 || turnZ % 360 == -180)) 
+        ||
+
+        (turnX % 360 == 0 && (turnY % 360 == -270 || turnY % 360 == 90) && (turnZ % 360 == 270 || turnZ % 360 == -90)) 
+        ||
+        (turnX % 360 == 0 && (turnY % 360 == 270 || turnY % 360 == -90) && (turnZ % 360 == -270 || turnZ % 360 == 90))
+        ||
+        (Math.abs(turnX % 360) == 180 && (turnY % 360 == -270 || turnY % 360 == 90) && (turnZ % 360 == -270 || turnZ % 360 == 90))
+        ||
+        (Math.abs(turnX % 360) == 180 && (turnY % 360 == 270 || turnY % 360 == -90) && (turnZ % 360 == 270 || turnZ % 360 == -90))
+        ){
+        indicRoof.className = "indicRoof colorOrange";
+        indicFloor.className = "indicFloor colorUv";
+        cubeInGrid[topPos][leftPos] = 6;
+    }
+}
+
+
 
 ////////////////////////////////////////////////////////
 //3D NAVIGATOR
@@ -774,3 +863,4 @@ padController = {
 window.addEventListener("keydown", padController.keyListener);
 
 window.requestAnimationFrame(spidow);
+

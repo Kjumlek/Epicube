@@ -137,8 +137,13 @@ h1{
     display: block;
     width: 100%;
     transform-style: preserve-3d;
-    transform: rotateX(-90deg) translateY(-4rem);
+    transform: rotateX(0deg) translateY(4rem);
 
+}
+@media screen and (min-width: 48em) {
+    #message{
+        transform: rotateX(-90deg) translateY(-4rem);
+    }
 }
 
 .timerBarContainer{
@@ -148,7 +153,12 @@ h1{
     height: 2rem;
     border: .3rem solid black;
     transform-style: preserve-3d;
-    transform: translateY(30rem) translateZ(-4rem);
+    transform: translateY(32rem) translateZ(-4rem);
+}
+@media screen and (min-width: 48em) {
+    .timerBarContainer{
+        transform: translateY(30rem) translateZ(-4rem);
+    }
 }
 #timerBar{
     padding: 0;
@@ -164,12 +174,19 @@ h1{
 
 .scene{
     /* background-color: #444; */
+    
     display: flex;
     justify-content: center;
     padding: 0;
     margin: 0;
+    margin-top: 210px;
     transform-style: preserve-3d;
     perspective: 1000px;
+}
+@media screen and (min-width: 48em) {
+    .scene{
+        margin-top: 0;
+    }
 }
 
 .the_grid{
@@ -180,7 +197,7 @@ h1{
 
     top: 10%;
     transform-style: preserve-3d;
-    transform: rotateX(80deg) rotateZ(0deg);
+    transform: rotateX(0deg) rotateZ(0deg);
     z-index: -100;
     scale: 0.9; 
 
@@ -190,6 +207,11 @@ h1{
 
     transition: .14s linear;
     animation: backrot1 .7s ease-in-out; 
+}
+@media screen and (min-width: 48em) {
+    .the_grid{
+        transform: rotateX(80deg) rotateZ(0deg);
+    }
 }
 @keyframes backrot1{
     0%{
