@@ -120,6 +120,7 @@ h1{
     font-family: 'Rajdhani';
     font-weight: 500;
 }
+
 .info{
     display: block;
     position: absolute;
@@ -199,7 +200,7 @@ h1{
     transform-style: preserve-3d;
     transform: rotateX(0deg) rotateZ(0deg);
     z-index: -100;
-    scale: 0.9; 
+    scale: 0.7; 
 
     /* border: 10px solid #666;
     box-shadow: 0 0 4rem .1rem white,
@@ -210,6 +211,7 @@ h1{
 }
 @media screen and (min-width: 48em) {
     .the_grid{
+        scale: 0.9; 
         transform: rotateX(80deg) rotateZ(0deg);
     }
 }
@@ -255,10 +257,18 @@ h1{
     position: absolute;
     height: 21rem;
     width: 16rem;
-    top: 1rem;
-    right: 1rem;
+    top: 0rem;
+    right: 0rem;
     z-index: 200;
     opacity: .3;
+    scale: 0.7;
+}
+@media screen and (min-width: 48em) {
+    .indicator{
+        scale: 1;
+        top: 1rem;
+        right: 1rem;
+    }
 }
 
 .indicator > * {
