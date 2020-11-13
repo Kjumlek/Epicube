@@ -203,7 +203,7 @@ h1{
 
     top: 10%;
     transform-style: preserve-3d;
-    transform: rotateX(0deg) rotateZ(0deg) translateZ(-40em);
+    transform: rotateX(0deg) rotateZ(0deg) translateZ(-30em);
     z-index: -100;
     scale: 0.9; 
 
@@ -212,14 +212,14 @@ h1{
     0 0 .5rem .5rem white inset; */
 
     transition: .14s linear;
-    /* animation: backrot1 .7s ease-in-out;  */
+    animation: backrot1 .7s ease-in-out; 
 }
 @media screen and (min-width: 48em) {
     .the_grid{
         transform: rotateX(80deg) rotateZ(0deg) translateZ(0em);
     }
 }
-/* @keyframes backrot1{
+@keyframes backrot1{
     0%{
         transform: rotateX(0deg) rotateZ(0deg);
         transform: scaleZ(0);
@@ -231,7 +231,7 @@ h1{
     100%{
         transform: rotateX(80deg) rotateZ(0deg);
     }
-} */
+}
 
 .line{
     display: flex;
@@ -529,8 +529,8 @@ h1{
     100%{
         transform: translateZ(-2.9em) scaleZ(0);
     }
-} */
-/* .wall> *{
+}
+.wall> *{
     position: absolute;
     display: flex;
     align-items: center;
@@ -541,8 +541,8 @@ h1{
     width: 5.8rem;
     background: var(--borderBackG); 
     background-size: 5.8rem 5.8rem;
-    background-color: var(--Red);
-    box-shadow: 0 0 3rem .1rem #ff0000;
+    background-color: #555;
+    box-shadow: 0 0 3rem .1rem #555;
     
 }
 .wall .front{

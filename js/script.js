@@ -165,7 +165,7 @@ sentinel.style.left = sentinelX * 6 + "rem";
 // console.log(sentinelY, sentinelX);
 spidow = function() {
     time-= 0.1 + hardness;
-    timer.style.width = time + "%";
+    timer.style.width = Math.abs(time) + "%";
     if (time <= 0){
         randomCase();
         time = 100;
@@ -474,7 +474,7 @@ padController = {
         break;
         
         }
-        console.log(leftPos, topPos);
+        // console.log(leftPos, topPos);
         cube.style.left= leftPos * 6 + "rem";
         cube.style.top= topPos * 6 + "rem";
         scoring();
@@ -485,9 +485,10 @@ padController = {
 window.addEventListener('load', function(){
         var el = document.getElementById('glass')
 
-        ontouch(el, function(evt, swipetype){
+        ontouch(el, function(evt, dir, phase, swipetype, distance){
+            console.log(dir);
             
-        if (swipetype == 'left' && xxx === 0){
+        if (dir== 'left' && xxx === 0){
             ++xxx;
             if (leftPos >= 1 && !loose){
                 if (theGrid[topPos][leftPos - 1] == 0
@@ -514,7 +515,7 @@ window.addEventListener('load', function(){
                 }
             }
         };
-        if (swipetype == 'right' && xxx === 0){
+        if (dir== 'right' && xxx === 0){
             ++xxx;
             if (leftPos <= 3 && !loose){
                 if (theGrid[topPos][leftPos + 1] == 0 
@@ -542,7 +543,7 @@ window.addEventListener('load', function(){
                 }
             }
         };
-        if (swipetype == 'up' && xxx === 0){
+        if (dir == 'up' && xxx === 0){
             ++xxx;
             if (topPos >= 1 && !loose){
                 if (theGrid[topPos - 1][leftPos] == 0
@@ -564,7 +565,7 @@ window.addEventListener('load', function(){
                 }
             }
         };
-        if (swipetype == 'down' && xxx === 0){
+        if (dir == 'down' && xxx === 0){
             ++xxx;
             if (topPos <= 3 && !loose){
                 if (theGrid[topPos + 1][leftPos] == 0
