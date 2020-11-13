@@ -62,14 +62,14 @@ function ontouch(el, callback){
         } 
         startActive = false;
 
-        if(Math.abs(distX) % 100 > 90 && moveChange === dir){
-            distX = 0;
-            xxx = 0;
-        };
-        if(Math.abs(distY) % 100 > 90 && moveChange === dir){
-            distY = 0;
-            xxx = 0;
-        };
+        // if(Math.abs(distX) % 100 > 90 && moveChange === dir){
+        //     distX = 0;
+        //     xxx = 0;
+        // };
+        // if(Math.abs(distY) % 100 > 90 && moveChange === dir){
+        //     distY = 0;
+        //     xxx = 0;
+        // };
 
 
         e.preventDefault() // prevent scrolling when inside DIV
