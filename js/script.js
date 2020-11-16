@@ -17,6 +17,135 @@ let indicLeft = document.querySelector(".indicLeft");
 let indicRoof = document.querySelector(".indicRoof");
 let indicFloor = document.querySelector(".indicFloor");
 ///////////////////////////////////////////////
+var soundPlus = 1;
+function groundPlay(){
+    if(soundPlus === 1){
+        ground1.play();
+        soundPlus++;
+    }
+    else if(soundPlus === 2){
+        ground2.play();
+        soundPlus++;
+    }
+    else if(soundPlus === 3){
+        ground3.play();
+        soundPlus++;
+    }
+    else if(soundPlus === 4){
+        ground4.play();
+        soundPlus++;
+    }
+    else if(soundPlus === 5){
+        ground5.play();
+        soundPlus++;
+    }
+    else if(soundPlus === 6){
+        ground6.play();
+        soundPlus++;
+    }
+    else if(soundPlus === 7){
+        ground7.play();
+        soundPlus++;
+    }
+    else if(soundPlus === 8){
+        ground8.play();
+        soundPlus = 1;
+    }
+};
+
+var soundEnemyPlus = 1;
+function enemyPlay(){
+    if(soundEnemyPlus === 1){
+        enemy1.play();
+        soundEnemyPlus++;
+    }
+    else if(soundEnemyPlus === 2){
+        enemy2.play();
+        soundEnemyPlus++;
+    }
+    else if(soundEnemyPlus === 3){
+        enemy3.play();
+        soundEnemyPlus++;
+    }
+    else if(soundEnemyPlus === 4){
+        enemy4.play();
+        soundEnemyPlus++;
+    }
+    else if(soundEnemyPlus === 5){
+        enemy5.play();
+        soundEnemyPlus++;
+    }
+    else if(soundEnemyPlus === 6){
+        enemy6.play();
+        soundEnemyPlus++;
+    }
+    else if(soundEnemyPlus === 7){
+        enemy7.play();
+        soundEnemyPlus++;
+    }
+    else if(soundEnemyPlus === 8){
+        enemy8.play();
+        soundEnemyPlus = 1;
+    }
+};
+
+var soundKillPlus = 1;
+function killPlay(){
+    if(soundKillPlus === 1){
+        kill1.play();
+    }
+    soundKillPlus++;
+};
+
+
+function pointsPlay(){
+    points1.play();
+};
+
+var soundTurnPlus = 1;
+function turnPlay(){
+
+    if(soundTurnPlus === 1){
+        turn5.play();
+        soundTurnPlus++;
+        turn5.volume = 0.3;
+    }
+    else if(soundTurnPlus === 2){
+        turn6.play();
+        soundTurnPlus++;
+        turn6.volume = 0.3;
+    }
+    else if(soundTurnPlus === 3){
+        turn7.play();
+        soundTurnPlus = 1;
+        turn7.volume = 0.3;
+    }
+};
+var soundMegaTurnPlus = 1;
+function megaturnPlay(){
+    if(soundMegaTurnPlus === 1){
+        turn1.play();
+        soundMegaTurnPlus++;
+        turn1.volume = 0.3;
+    }
+    else if(soundMegaTurnPlus === 2){
+        turn2.play();
+        soundMegaTurnPlus++;
+        turn2.volume = 0.3;
+    }
+    else if(soundMegaTurnPlus === 3){
+        turn3.play();
+        soundMegaTurnPlus = 1;
+        turn3.volume = 0.3;
+    }
+    
+    else if(soundMegaTurnPlus === 4){
+        turn4.play();
+        soundMegaTurnPlus = 1;
+        turn4.volume = 0.3;
+    }
+};
+var turnMemo = 10;
 
 
 ///////////////////////////////////////////////
@@ -164,10 +293,19 @@ sentinel.style.top = sentinelY * 6 + "rem";
 sentinel.style.left = sentinelX * 6 + "rem";
 // console.log(sentinelY, sentinelX);
 spidow = function() {
-    time-= 0.1 + hardness;
+    if(!loose){
+        time-= 0.1 + hardness;
+    } else {
+        time = 0;
+    }
+    
     timer.style.width = Math.abs(time) + "%";
     if (time <= 0){
         randomCase();
+        if(!loose){
+            loosePoint.play();
+        };
+        
         time = 100;
     }
 
@@ -187,6 +325,8 @@ spidow = function() {
 
     //Trapped System
     if (topPos === sentinelY && leftPos == sentinelX){
+        killPlay();
+        soundKillPlus = 5;
         gramPoints2.innerHTML = "Killed!";
         loose = true;
         cube.style.transformStyle = "flat";
@@ -210,8 +350,15 @@ spidow = function() {
 
     movinTime -= 0.01;
     if (movinTime < 0){
+        enemyPlay();
+        if(turnMemo != vectorSentinel){
+            turnPlay();
+            turnMemo = vectorSentinel;
+        };
         //left
         if (vectorSentinel == 0){
+
+            
             if((sentinelX === leftPos + 1) && (sentinelY === topPos)){
                 sentinelX -= 1;
                 movinTime = .2;
@@ -233,11 +380,14 @@ spidow = function() {
             } else {
                 vectorSentinel = 2;
                 degres += 180;
+                megaturnPlay();
+                turnMemo = vectorSentinel
                 movinTime = .5;
             }
         } 
         //up
         else if (vectorSentinel == 1){
+
             if((sentinelX === leftPos) && (sentinelY === topPos + 1)){
                 sentinelY -= 1;
                 movinTime = .2;
@@ -259,11 +409,14 @@ spidow = function() {
             } else {
                 vectorSentinel = 3;
                 degres += 180;
+                megaturnPlay();
+                turnMemo = vectorSentinel
                 movinTime = .5;
             }
         }
         //right
         else if (vectorSentinel == 2 ){
+ 
             if((sentinelX === leftPos - 1) && (sentinelY === topPos)){
                 sentinelX += 1;
                 movinTime = .2;
@@ -286,12 +439,15 @@ spidow = function() {
             } else {
                 vectorSentinel = 0;
                 degres += 180;
+                megaturnPlay();
+                turnMemo = vectorSentinel
                 movinTime = .5;
                 
             }
         }
         //down
         else if (vectorSentinel == 3){
+
             if((sentinelX === leftPos) && (sentinelY === topPos - 1)){
                 sentinelY += 1;
                 movinTime = .2;
@@ -313,6 +469,8 @@ spidow = function() {
             } else {
                 vectorSentinel = 1;
                 degres += 180;
+                megaturnPlay();
+                turnMemo = vectorSentinel
                 movinTime = .5;
             }
         }
@@ -375,6 +533,7 @@ padController = {
             if (theGrid[topPos][leftPos + 1] == 0 
                 || cubeInGrid[topPos][leftPos + 1] == theGrid[topPos][leftPos + 1]
                 ){
+                groundPlay();
                 leftPos = leftPos + 1;
                 if (turnX%360 == 0){
                     turnY = turnY + 90;
@@ -404,6 +563,7 @@ padController = {
         if (leftPos >= 1 && !loose){
             if (theGrid[topPos][leftPos - 1] == 0
                 || cubeInGrid[topPos][leftPos - 1] == theGrid[topPos][leftPos - 1]){
+                groundPlay();
                 leftPos = leftPos - 1;
                 if (turnX%360 == 0){
                     turnY = turnY - 90;
@@ -433,7 +593,7 @@ padController = {
         if (topPos >= 1 && !loose){
             if (theGrid[topPos - 1][leftPos] == 0
                 || cubeInGrid[topPos - 1][leftPos] == theGrid[topPos - 1][leftPos]){
-
+                groundPlay();
                 topPos = topPos - 1;
 
                 if (turnY%360 == 0){
@@ -456,7 +616,7 @@ padController = {
         if (topPos <= 3 && !loose){
             if (theGrid[topPos + 1][leftPos] == 0
                 || cubeInGrid[topPos + 1][leftPos] == theGrid[topPos + 1][leftPos]){
-
+                groundPlay();
                 topPos = topPos + 1;
 
                 if (turnY%360 == 0){
@@ -489,10 +649,12 @@ window.addEventListener('load', function(){
             console.log(dir);
             
         if (dir== 'left' && xxx === 0){
+            
             ++xxx;
             if (leftPos >= 1 && !loose){
                 if (theGrid[topPos][leftPos - 1] == 0
                     || cubeInGrid[topPos][leftPos - 1] == theGrid[topPos][leftPos - 1]){
+                        groundPlay();
                     leftPos = leftPos - 1;
                     if (turnX%360 == 0){
                         turnY = turnY - 90;
@@ -521,6 +683,7 @@ window.addEventListener('load', function(){
                 if (theGrid[topPos][leftPos + 1] == 0 
                     || cubeInGrid[topPos][leftPos + 1] == theGrid[topPos][leftPos + 1]
                     ){
+                    groundPlay();
                     leftPos = leftPos + 1;
                     if (turnX%360 == 0){
                         turnY = turnY + 90;
@@ -548,7 +711,7 @@ window.addEventListener('load', function(){
             if (topPos >= 1 && !loose){
                 if (theGrid[topPos - 1][leftPos] == 0
                     || cubeInGrid[topPos - 1][leftPos] == theGrid[topPos - 1][leftPos]){
-
+                    groundPlay();
                     topPos = topPos - 1;
 
                     if (turnY%360 == 0){
@@ -570,7 +733,7 @@ window.addEventListener('load', function(){
             if (topPos <= 3 && !loose){
                 if (theGrid[topPos + 1][leftPos] == 0
                     || cubeInGrid[topPos + 1][leftPos] == theGrid[topPos + 1][leftPos]){
-
+                    groundPlay();
                     topPos = topPos + 1;
 
                     if (turnY%360 == 0){
@@ -586,15 +749,14 @@ window.addEventListener('load', function(){
                 }
             }
         };
-        // var touchreport = ''
-        // touchreport += '<b>Swipe Type:</b> ' + swipetype + '<br />'
-        // el.innerHTML = touchreport
+
         cube.style.left= leftPos * 6 + "rem";
         cube.style.top= topPos * 6 + "rem";
         scoring();
         logic();
         })
 }, false)
+
 
 
 
@@ -606,13 +768,20 @@ function scoring(){
         theGrid[topPos][leftPos] = 0;
         document.querySelector(".case" + (topPos + 1) + (leftPos + 1)).className = "case case"+ (topPos + 1) + (leftPos + 1) + " " + color[0];
         randomCase();
-        scorePlayer++;
+        // scorePlayer++;
+        scorePlayer = parseInt(scorePlayer + time);
+        if(scorePlayer%10 === 0){
+            points2.play();
+        }
         hardness += 0.005;
         time = 100;
         gramPoints.innerHTML = scorePlayer;
+        pointsPlay();
     }
 
+
     if (!theGrid.some(r => r.some(v => v > 0 && v < 7))){
+
         // drawLevel(level2);
         scorePlayer++;
         // hardness += 0.0005;
@@ -626,6 +795,8 @@ function scoring(){
 ////////////////////////////////////////////////////////
 function logic(){
 ////////////////////////////////////////////////////////
+
+
 //Blue & Green
     if ((turnY % 360 == 0 && turnZ % 360 == 0) ||
     (Math.abs(turnY) % 360 == 180 && Math.abs(turnZ) % 360 == 180)){
